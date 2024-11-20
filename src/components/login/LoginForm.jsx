@@ -4,7 +4,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    navigate("/dashboard");
+    navigate("/dashboard-user");
   };
 
   return (
