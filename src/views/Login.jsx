@@ -1,8 +1,13 @@
+import { Helmet } from "react-helmet";
 import LoginForm from "../components/login/LoginForm";
 
 const Login = () => {
   return (
     <div className="w-full min-h-screen relative">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Login - Inventrix</title>
+      </Helmet>
       <img
         src="/images/background-sekolah.png"
         alt="Background Image"
@@ -30,7 +35,7 @@ const Login = () => {
               Selamat Datang di Aplikasi Inventaris SMKN 6 Jakarta
             </h1>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row mt-4 gap-4">
             {/* Info Section */}
             <div className="hidden sm:block flex-1">
@@ -46,9 +51,9 @@ const Login = () => {
                   <li>Peminjaman alat untuk aktivitas akademik</li>
                   <li>Peminjaman alat untuk aktivitas non-akademik</li>
                 </ul>
-                <img 
-                  src="/images/orang.png" 
-                  alt="Gambar Orang" 
+                <img
+                  src="/images/orang.png"
+                  alt="Gambar Orang"
                   className="w-32 h-32 sm:w-40 sm:h-40"
                 />
               </div>
