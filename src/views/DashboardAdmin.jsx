@@ -1,3 +1,8 @@
+import { RiAlignItemBottomLine } from "react-icons/ri";
+import { RiBringToFront } from "react-icons/ri";
+import { GrVmMaintenance } from "react-icons/gr";
+import { GiBrokenTablet } from "react-icons/gi";
+
 const DashboardAdmin = () => {
   return (
     <div className="flex w-full h-full flex-row ">
@@ -40,7 +45,58 @@ const DashboardAdmin = () => {
             className="w-14 h-14 rounded-full"
           />
         </nav>
-        <div></div>
+        <section>
+          <div className="flex mt-10 gap-10 justify-around ml-7 mr-8">
+            <div className="bg-white rounded-md px-5 py-9 border">
+              <div className="flex items-center">
+                <RiAlignItemBottomLine
+                  size={50}
+                  className="bg-[#D398E7] text-white mr-2 rounded-xl"
+                />
+                <div>
+                  <h2 className="font-poppins">Barang Tersedia</h2>
+                  <p className="text-4xl">300</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-md px-5 py-9 border">
+              <div className="flex items-center">
+                <RiBringToFront
+                  size={50}
+                  className="bg-[#D398E7] text-white mr-2 rounded-xl"
+                />
+                <div>
+                  <h2 className="font-poppins">Barang Dipinjam</h2>
+                  <p className="text-4xl">80</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-md px-5 py-9 border">
+              <div className="flex items-center">
+                <GrVmMaintenance
+                  size={50}
+                  className="bg-[#D398E7] text-white mr-2 rounded-xl"
+                />
+                <div>
+                  <h2 className="font-poppins">Barang Dalam Perbaikan</h2>
+                  <p className="text-4xl">70</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-md px-5 py-9 border">
+              <div className="flex items-center">
+                <GiBrokenTablet
+                  size={50}
+                  className="bg-[#D398E7] text-white mr-2 rounded-xl"
+                />
+                <div>
+                  <h2 className="font-poppins">Barang Rusak</h2>
+                  <p className="text-4xl">500</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
     </div>
   );
