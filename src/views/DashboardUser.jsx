@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet";
 import Header from "../components/dasboard/Header";
+import CardContent from "../components/dasboard/CardContent";
 
 const DashboardUser = () => {
   return (
@@ -15,6 +16,7 @@ const DashboardUser = () => {
       />
       <div className="flex flex-col w-full relative z-10 px-32">
         <Header />
+        <CardContent />
       </div>
     </div>
   );

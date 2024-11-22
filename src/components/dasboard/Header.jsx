@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import CardContent from "./CardContent";
 
 const Header = () => {
   const [timeDate, setTimeDate] = useState({
@@ -66,7 +65,6 @@ const Header = () => {
           <p className="font-poppins text-white">Siap untuk beraktivitas?</p>
         </div>
       </div>
-      <CardContent />
     </div>
   );
 };

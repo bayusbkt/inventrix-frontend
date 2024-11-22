@@ -1,42 +1,56 @@
+import ModalComponent from "../global/DetailModal";
+
+
 const dummyData = [
   {
     number: 1,
     alat: "Laptop",
+    deskripsi: "Acer Nitro 15",
+    kuantitas: 20,
     unitTersedia: 10,
     unitDipinjam: 10,
-    status: "Tersedia",
   },
   {
     number: 2,
     alat: "Kabel Kusut",
+    deskripsi: "Hati hati kalo pake ada yang rusak",
+    kuantitas: 7,
     unitTersedia: 5,
     unitDipinjam: 2,
-    status: "Tersedia",
   },
   {
     number: 3,
     alat: "Speaker",
+    deskripsi: "Speakernya busuk",
+    kuantitas: 3,
     unitTersedia: 3,
     unitDipinjam: 0,
-    status: "Tersedia",
   },
   {
     number: 4,
     alat: "Proyektor",
+    deskripsi: "Bisa semua",
+    kuantitas: 20,
     unitTersedia: 12,
     unitDipinjam: 8,
-    status: "Tersedia",
   },
   {
     number: 5,
     alat: "Charger",
+    deskripsi: "Cuma buat iphone",
+    kuantitas: 30,
     unitTersedia: 15,
     unitDipinjam: 15,
-    status: "Dipinjam",
   },
 ];
 
 const DataTable = () => {
+
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+  };
+
   return (
     <div className="mt-10">
       <div className="flex justify-between">
@@ -62,7 +76,13 @@ const DataTable = () => {
                 No.
               </th>
               <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
-                Keterangan Alat
+                Nama Alat
+              </th>
+              <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                Deskripsi
+              </th>
+              <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                Kuantitas
               </th>
               <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
                 Unit Tersedia
@@ -71,20 +91,26 @@ const DataTable = () => {
                 Unit Dipinjam
               </th>
               <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
-                Status
-              </th>
-              <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
                 Aksi
               </th>
             </tr>
           </thead>
           <tbody>
             {dummyData.map((data, index) => (
-              <tr className="border-b border-slate-200" key={index}>
+              <tr 
+                className="border-b border-slate-200 hover:bg-slate-50 transition-colors duration-200" 
+                key={index}
+              >
                 <td className="py-3 px-2 font-poppins text-primary">
-                  {data.number}
+                  {data.number}.
                 </td>
                 <td className="py-3 px-2 font-poppins text-primary">{data.alat}</td>
+                <td className="py-3 px-2 font-poppins text-primary">
+                  {truncateText(data.deskripsi, 20)}
+                </td>
+                <td className="text-center py-3 px-2 font-poppins text-primary">
+                  {data.kuantitas} Buah
+                </td>
                 <td className="text-center py-3 px-2 font-poppins text-primary">
                   {data.unitTersedia} Unit
                 </td>
@@ -92,17 +118,7 @@ const DataTable = () => {
                   {data.unitDipinjam} Unit
                 </td>
                 <td className="text-center py-3 px-2 font-poppins text-primary">
-                  <span className="bg-[#DCFCE7] text-[#3F9C8F] px-2 py-1 rounded-md">
-                    {data.status}
-                  </span>
-                </td>
-                <td className="text-center py-3 px-2 font-poppins text-primary">
-                  <button className="bg-[#37B7C3] text-white px-3 py-1 rounded-md mr-2">
-                    Pinjam
-                  </button>
-                  <button className="bg-[#FBA72C] text-white px-3 py-1 rounded-md">
-                    Detail
-                  </button>
+                  <ModalComponent />
                 </td>
               </tr>
             ))}
