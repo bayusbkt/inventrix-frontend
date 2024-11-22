@@ -97,6 +97,23 @@ const DashboardAdmin = () => {
             </div>
           </div>
         </section>
+        <section className="flex ml-7 mt-2">
+          <div className="">
+            <div className="w-auto h-auto mt-10">
+              <h1 className="text-black font-poppins font-semibold text-lg">
+                Rekapitulasi Bulanan
+              </h1>
+            </div>
+            <div className="bg-gray-500 w-auto h-auto mr-7">
+              <h1>grafik</h1>
+            </div>
+            <div className="flex flex-col bg-black">
+              <div>
+                <h1>Detail</h1>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
     </div>
   );
