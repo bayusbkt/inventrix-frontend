@@ -3,7 +3,7 @@ import StatusCard from "./StatusCard";
 
 const CardContent = () => {
   return (
-    <div className="bg-[#EEF5FF] rounded-2xl px-5 py-4 w-full shadow-xl mt-3">
+    <div className="bg-[#EEF5FF] rounded-2xl px-5 py-4 w-full shadow-xl mt-6 mb-6">
       <StatusCard />
       <DataTable />
     </div>
