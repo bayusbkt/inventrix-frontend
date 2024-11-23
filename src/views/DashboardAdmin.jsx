@@ -1,10 +1,12 @@
 import { RiAlignItemBottomLine } from "react-icons/ri";
-import { RiBringToFront } from "react-icons/ri";
+import { RiBringToFront, RiLogoutBoxFill } from "react-icons/ri";
 import { GrVmMaintenance } from "react-icons/gr";
 import { GiBrokenTablet } from "react-icons/gi";
+import { MdSpaceDashboard } from "react-icons/md";
+import { FaDatabase, FaBox } from "react-icons/fa";
 import LineChart from "../components/chart/LineChart";
-import ModalComponent from "../components/global/DetailModal";
 import { useNavigate } from "react-router-dom";
+import ConfirmationAdminModal from "../components/global/ConfirmationAdminModal";
 
 const DashboardAdmin = () => {
   const navigate = useNavigate();
@@ -26,24 +28,24 @@ const DashboardAdmin = () => {
           </h1>
         </div>
         <div className="flex flex-col mt-5 gap-3">
-          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 hover:text-white  gap-2 rounded ">
-            <RiAlignItemBottomLine size={20} />
-            <span className="text-sm">Dashboard</span>
+          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300">
+            <MdSpaceDashboard size={20} />
+            <span className="text-sm font-semibold">Dashboard</span>
           </button>
-          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 hover:text-white  gap-2 rounded">
-            <RiBringToFront size={20} />
-            <span className="text-sm">Data Peminjaman</span>
+          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300">
+            <FaDatabase size={20} />
+            <span className="text-sm font-semibold">Data Peminjaman</span>
           </button>
-          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 hover:text-white  gap-2 rounded">
-            <GrVmMaintenance size={20} />
-            <span className="text-sm">Manajemen Barang</span>
+          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300">
+            <FaBox size={20} />
+            <span className="text-sm font-semibold">Manajemen Barang</span>
           </button>
           <button
             onClick={handleSubmit}
-            className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 hover:text-white  gap-2 rounded"
+            className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300"
           >
-            <GiBrokenTablet size={20} />
-            <span className="text-sm">Logout</span>
+            <RiLogoutBoxFill size={20} />
+            <span className="text-sm font-semibold">Logout</span>
           </button>
         </div>
       </section>
@@ -131,19 +133,19 @@ const DashboardAdmin = () => {
               <div className="flex flex-col gap-3 mt-4">
                 <div className="flex bg-[#3852A9] text-white rounded-md p-2 justify-between items-center">
                   <h6 className="text-xm">Laptop</h6>
-                  <ModalComponent />
+                  <ConfirmationAdminModal />
                 </div>
                 <div className="flex bg-[#3852A9] text-white rounded-md p-2 justify-between items-center">
                   <h6 className="text-xm">Proyektor</h6>
-                  <ModalComponent />
+                  <ConfirmationAdminModal />
                 </div>
                 <div className="flex bg-[#3852A9] text-white rounded-md p-2 justify-between items-center">
                   <h6 className="text-xm">Kabel</h6>
-                  <ModalComponent />
+                  <ConfirmationAdminModal />
                 </div>
                 <div className="flex bg-[#3852A9] text-white rounded-md p-2 justify-between items-center">
                   <h6 className="text-xm">Speaker</h6>
-                  <ModalComponent />
+                  <ConfirmationAdminModal />
                 </div>
               </div>
             </div>

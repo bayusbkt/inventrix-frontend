@@ -11,52 +11,7 @@ import {
   Descriptions,
 } from "antd";
 import { formatDate } from "../../helpers/formatDate";
-
-//Ini misalnya nanti API
-const data = {
-  status: true,
-  message: "Sukses mendapatkan daftar unit",
-  data: {
-    item: {
-      id: "92561ad0-75c7-49e1-b6d2-e6c93a8002a9",
-      name: "Kabel Kusut",
-      description: "Bau Plastik",
-    },
-    summary: {
-      total: 5,
-      tersedia: 4,
-      dipinjam: 1,
-      dalamPerbaikan: 0,
-      rusak: 0,
-    },
-    units: [
-      {
-        id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
-        status: "Tersedia",
-        outTime: null,
-        inTime: "2024-10-21T06:37:51.000Z",
-      },
-      {
-        id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
-        status: "Rusak",
-        outTime: null,
-        inTime: "2024-10-21T06:37:51.000Z",
-      },
-      {
-        id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
-        status: "Dalam Perbaikan",
-        outTime: null,
-        inTime: "2024-10-21T06:37:51.000Z",
-      },
-      {
-        id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
-        status: "Dipinjam",
-        outTime: null,
-        inTime: "2024-10-21T06:37:51.000Z",
-      },
-    ],
-  },
-};
+import CheckoutModal from "./CheckoutModal";
 
 const DetailModal = () => {
   const [open, setOpen] = useState(false);
@@ -68,7 +23,7 @@ const DetailModal = () => {
 
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 500);
   };
 
   const getStatusTag = (status) => {
@@ -121,21 +76,61 @@ const DetailModal = () => {
         const isBorrowed = record.status === "Dipinjam";
 
         return (
-          <Button
-            type="primary"
-            className="font-poppins font-semibold"
-            disabled={!isAvailable && !isBorrowed}
-          >
-            {isAvailable
-              ? "Pinjam"
-              : isBorrowed
-              ? "Kembalikan"
-              : "Tidak Tersedia"}
-          </Button>
+          <CheckoutModal
+            isAvailable={isAvailable}
+            isBorrowed={isBorrowed}
+            unitId={record.id}
+          />
         );
       },
     },
   ];
+
+  // Data dari API
+  const data = {
+    status: true,
+    message: "Sukses mendapatkan daftar unit",
+    data: {
+      item: {
+        id: "92561ad0-75c7-49e1-b6d2-e6c93a8002a9",
+        name: "Kabel Kusut",
+        description: "Bau Plastik",
+      },
+      summary: {
+        total: 5,
+        tersedia: 4,
+        dipinjam: 1,
+        dalamPerbaikan: 0,
+        rusak: 0,
+      },
+      units: [
+        {
+          id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
+          status: "Tersedia",
+          outTime: null,
+          inTime: "2024-10-21T06:37:51.000Z",
+        },
+        {
+          id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
+          status: "Rusak",
+          outTime: "2024-10-20T06:37:51.000Z",
+          inTime: null,
+        },
+        {
+          id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
+          status: "Dalam Perbaikan",
+          outTime: "2024-10-23T06:37:51.000Z",
+          inTime: null,
+        },
+        {
+          id: "1b1af03a-59e0-40ef-8903-5ea5b65d423a",
+          status: "Dipinjam",
+          outTime: "2024-10-21T04:37:51.000Z",
+          inTime: null,
+        },
+      ],
+    },
+  };
 
   return (
     <>
