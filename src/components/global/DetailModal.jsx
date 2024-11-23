@@ -126,7 +126,11 @@ const DetailModal = () => {
             className="font-poppins font-semibold"
             disabled={!isAvailable && !isBorrowed}
           >
-            {isAvailable ? "Pinjam" : isBorrowed ? "Kembalikan" : "Tidak Tersedia"}
+            {isAvailable
+              ? "Pinjam"
+              : isBorrowed
+              ? "Kembalikan"
+              : "Tidak Tersedia"}
           </Button>
         );
       },
