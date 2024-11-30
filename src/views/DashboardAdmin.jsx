@@ -1,66 +1,18 @@
 import { RiAlignItemBottomLine } from "react-icons/ri";
-import { RiBringToFront, RiLogoutBoxFill } from "react-icons/ri";
+import { RiBringToFront } from "react-icons/ri";
 import { GrVmMaintenance } from "react-icons/gr";
 import { GiBrokenTablet } from "react-icons/gi";
-import { MdSpaceDashboard } from "react-icons/md";
-import { FaDatabase, FaBox } from "react-icons/fa";
 import LineChart from "../components/chart/LineChart";
-import { useNavigate } from "react-router-dom";
 import ConfirmationAdminModal from "../components/global/ConfirmationAdminModal";
+import Sidebar from "../components/dahboard-admin/Sidebar";
+import Navbar from "../components/dahboard-admin/Navbar";
 
 const DashboardAdmin = () => {
-  const navigate = useNavigate();
-
-  const handleSubmit = () => {
-    navigate("/");
-  };
   return (
     <div className="flex w-full h-full flex-row font-poppins">
-      <section className="w-full basis-1/5 h-screen p-5 bg-white shadow-lg z-10">
-        <div className="flex gap-2">
-          <img
-            src="/images/logo-smk.png"
-            alt="Logo SMK Negeri 6 Jakarta"
-            className="w-14 h-16"
-          />
-          <h1 className="content-center font-bold text-2xl text-[#3852A9]">
-            INVENTRIX.
-          </h1>
-        </div>
-        <div className="flex flex-col mt-5 gap-3">
-          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300">
-            <MdSpaceDashboard size={20} />
-            <span className="text-sm font-semibold">Dashboard</span>
-          </button>
-          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300">
-            <FaDatabase size={20} />
-            <span className="text-sm font-semibold">Data Peminjaman</span>
-          </button>
-          <button className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300">
-            <FaBox size={20} />
-            <span className="text-sm font-semibold">Manajemen Barang</span>
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="flex items-center text-start hover:bg-[#3852A9] px-3 py-2 text-slate-600 hover:text-white  gap-2 rounded transition-all duration-300"
-          >
-            <RiLogoutBoxFill size={20} />
-            <span className="text-sm font-semibold">Logout</span>
-          </button>
-        </div>
-      </section>
+      <Sidebar />
       <section className="bg-[#EFF0F6] w-full basis-4/5">
-        <nav className="flex bg-white p-3 gap-5 items-center justify-end pr-10">
-          <div className="flex flex-col text-end">
-            <h3 className="">Kurnia Jaya</h3>
-            <p className="text-xs opacity-50">Admin</p>
-          </div>
-          <img
-            src="/images/orang.png"
-            alt="Logo SMK Negeri 6 Jakarta"
-            className="w-14 h-14 rounded-full"
-          />
-        </nav>
+        <Navbar />
         <div className="p-7">
           <section className="grid grid-flow-col gap-6  justify-stretch">
             <div className="flex bg-white rounded-xl gap-8 px-5 py-9 border">

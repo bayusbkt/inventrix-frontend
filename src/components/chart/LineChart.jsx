@@ -65,6 +65,18 @@ const LineChart = ({ className }) => {
     layout: {
       padding: 10, // Tambahkan padding internal jika diperlukan
     },
+    scales: {
+      x: {
+        grid: {
+          display: false, // Hilangkan grid untuk sumbu X
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Hilangkan grid untuk sumbu Y
+        },
+      },
+    },
   };
 
   return (
