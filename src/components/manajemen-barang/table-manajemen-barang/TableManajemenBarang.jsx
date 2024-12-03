@@ -12,10 +12,8 @@ export const TableManajemenBarang = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showDetailModal, setShowDetailModal] = useState(false);
   const [itemToEdit, setItemToEdit] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null);
-  const [itemToDetail, setItemToDetail] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -153,11 +151,7 @@ export const TableManajemenBarang = () => {
           </button>
         </div>
       </div>
-      <DetailItemModal
-        showModal={showDetailModal}
-        onClose={() => setShowDetailModal(false)}
-        itemData={itemToDetail}
-      />
+
       <AddItemModal
         isOpen={showModal}
         toggleModal={() => setShowModal(false)}
@@ -231,16 +225,7 @@ export const TableManajemenBarang = () => {
                     {item.outQuantity} Unit
                   </td>
                   <td className="text-left py-3 px-2 font-poppins text-xs flex gap-1 justify-center">
-                    <button
-                      type="button"
-                      className="bg-primary px-2 py-1 rounded text-white"
-                      onClick={() => {
-                        setItemToDetail(item);
-                        setShowDetailModal(true);
-                      }}
-                    >
-                      Detail
-                    </button>
+                    <DetailItemModal itemId={item.id} />
                     <button
                       type="button"
                       className="bg-yellow-500 px-2 py-1 rounded text-white"

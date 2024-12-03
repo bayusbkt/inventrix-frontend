@@ -76,8 +76,8 @@ const LineChart = ({ className }) => {
   };
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
-      <div className="w-full h-full">
+    <div className={`w-full h-full ${className}`}>
+      <div className="w-full h-80">
         <Line data={data} options={options} />
       </div>
     </div>

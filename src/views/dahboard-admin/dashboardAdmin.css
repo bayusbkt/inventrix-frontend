@@ -23,6 +23,7 @@
 
 .recapitulation-data {
   margin: 30px 0 0 0;
+  display: flex;
 }
 
 .recapitulation-data .line-chart-admin {

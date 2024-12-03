@@ -58,9 +58,8 @@ const StatusCard = () => {
                       month: "short",
                       year: "numeric",
                       hour: "2-digit",
-                      minute: "2-digit"
-                    }) + " WIB" ||
-                      "Tanggal Tidak Diketahui"}
+                      minute: "2-digit",
+                    }) + " WIB" || "Tanggal Tidak Diketahui"}
                   </p>
                 </div>
               </div>

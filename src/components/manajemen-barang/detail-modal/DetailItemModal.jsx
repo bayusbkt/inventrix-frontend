@@ -1,141 +1,239 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  Card,
+  Table,
+  Statistic,
+  Tag,
+  Row,
+  Col,
+  Descriptions,
+} from "antd";
+import axios from "axios";
+import { formatDate } from "../../../helpers/formatDate";
+import ConfirmAddUnitModal from "../confirm-add-unit-modal/ConfirmAddUnitModal";
+import ConfirmDeleteUnitModal from "../ConfirmDeleteUnitModal";
 
-const DetailItemModal = ({ showModal, onClose, itemData }) => {
-  const [unitData, setUnitData] = useState([]); // Pastikan inisialisasi dengan array kosong
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const DetailItemModal = ({ itemId }) => {
+  const [data, setData] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+  const [unitToDelete, setUnitToDelete] = useState(null);
+
+  const fetchData = async (id) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/unit-by-itemid/${id}`,
+        { withCredentials: true }
+      );
+      setData(response.data.data);
+    } catch (error) {
+      console.error("Error Fetching Data:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!itemData?.id) return;
+    if (open) {
+      fetchData(itemId);
+    }
+  }, [open, itemId]);
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(
-          `http://localhost:4000/unit-by-itemid/${itemData.id}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.status) {
-          setUnitData(Array.isArray(result.data) ? result.data : []); // Pastikan result.data adalah array
-        } else {
-          setError("Failed to fetch unit data.");
-          setUnitData([]); // Kosongkan data jika status false
-        }
-      } catch (error) {
-        setError(error.message);
-        setUnitData([]); // Kosongkan data jika ada error
-      } finally {
-        setLoading(false);
+  const handleAddUnit = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/unit/create/${itemId}`,
+        {}, // Body kosong
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        fetchData(itemId); // Refresh data setelah berhasil
+        setConfirmModalOpen(false); // Tutup modal konfirmasi
       }
-    };
+    } catch (error) {
+      console.error("Error Adding Unit:", error.message);
+    }
+  };
 
-    fetchData();
-  }, [itemData]);
+  const handleDeleteUnit = async () => {
+    try {
+      if (!unitToDelete) return;
+      await axios.delete(
+        `http://localhost:4000/unit/delete/${unitToDelete.id}`,
+        { withCredentials: true }
+      );
+      fetchData(itemId);
+      setConfirmDeleteModalOpen(false);
+    } catch (error) {
+      console.error("Error Deleting Unit:", error.message);
+    }
+  };
 
-  if (!showModal) return null;
+  const columns = [
+    {
+      title: "ID Unit",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => {
+        const statusColors = {
+          Tersedia: "success",
+          Dipinjam: "processing",
+          "Dalam Perbaikan": "warning",
+          Rusak: "error",
+        };
+        return <Tag color={statusColors[status] || "default"}>{status}</Tag>;
+      },
+    },
+    {
+      title: "Waktu Peminjaman",
+      dataIndex: "outTime",
+      key: "outTime",
+      render: (date) => formatDate(date),
+    },
+    {
+      title: "Waktu Pengembalian",
+      dataIndex: "inTime",
+      key: "inTime",
+      render: (date) => formatDate(date),
+    },
+    {
+      title: "Aksi",
+      key: "aksi",
+      render: (_, record) => {
+        return (
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="bg-yellow-500 px-2 py-1 rounded text-white"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="bg-red-500 px-2 py-1 rounded text-white"
+              onClick={() => {
+                setUnitToDelete(record);
+                setConfirmDeleteModalOpen(true);
+              }}
+            >
+              Hapus
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-1/3 max-h-[80vh] overflow-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">Detail Item</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 text-xl font-semibold"
-          >
-            ×
-          </button>
-        </div>
-        <div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Nama Alat</label>
-            <p>{itemData?.itemName || "N/A"}</p>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Deskripsi</label>
-            <p>{itemData?.description || "N/A"}</p>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Kuantitas</label>
-            <p>{itemData?.quantity || 0} Buah</p>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Unit Tersedia</label>
-            <p>{itemData?.inQuantity || 0} Unit</p>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Unit Dipinjam</label>
-            <p>{itemData?.outQuantity || 0} Unit</p>
-          </div>
-        </div>
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="bg-primary px-2 py-1 rounded text-white"
+      >
+        Detail
+      </button>
 
-        <div className="mb-4 overflow-auto max-h-[300px]">
+      <Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        width={1100}
+        centered
+        footer={null}
+      >
+        <div>
           {loading ? (
             <p>Loading...</p>
-          ) : error ? (
-            <p className="text-red-500">{error}</p>
-          ) : unitData.length === 0 ? (
-            <p>Data unit tidak tersedia.</p>
           ) : (
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="text-left py-3 px-2 font-poppins text-xs">
-                    Id Unit
-                  </th>
-                  <th className="text-left py-3 px-2 font-poppins text-xs">
-                    Status
-                  </th>
-                  <th className="text-left py-3 px-2 font-poppins text-xs">
-                    Waktu Peminjaman
-                  </th>
-                  <th className="text-left py-3 px-2 font-poppins text-xs">
-                    Waktu Pengembalian
-                  </th>
-                  <th className="text-left py-3 px-2 font-poppins text-xs">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {unitData.map((unit, index) => (
-                  <tr key={index} className="border-b border-slate-200">
-                    <td className="py-3 px-2">{unit.id}</td>
-                    <td className="py-3 px-2">{unit.status}</td>
-                    <td className="py-3 px-2">{unit.startDate || "N/A"}</td>
-                    <td className="py-3 px-2">{unit.endDate || "N/A"}</td>
-                    <td className="py-3 px-2">
-                      <button className="text-blue-500 mr-2">Edit</button>
-                      <button className="text-red-500">Hapus</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <>
+              <Card title="Informasi Alat" className="mb-8 font-poppins">
+                <Descriptions column={2}>
+                  <Descriptions.Item label="Nama Alat">
+                    {data?.item?.name || "Loading..."}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Deskripsi">
+                    {data?.item?.description || "Loading..."}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Card>
+
+              <Card title="Ringkasan" className="mb-8 font-poppins">
+                <Row gutter={16}>
+                  <Col span={6}>
+                    <Statistic
+                      title="Total"
+                      value={data?.summary?.total || 0}
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <Statistic
+                      title="Tersedia"
+                      value={data?.summary?.tersedia || 0}
+                      valueStyle={{ color: "#3f8600" }}
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <Statistic
+                      title="Dipinjam"
+                      value={data?.summary?.dipinjam || 0}
+                      valueStyle={{ color: "#1890ff" }}
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <Statistic
+                      title="Rusak"
+                      value={data?.summary?.rusak || 0}
+                      valueStyle={{ color: "#cf1322" }}
+                    />
+                  </Col>
+                </Row>
+              </Card>
+
+              <Card title="Daftar Unit" className="font-poppins">
+                <button
+                  className="bg-primary text-white rounded w-full py-3 mb-4 hover:bg-blue-500"
+                  onClick={() => setConfirmModalOpen(true)}
+                >
+                  + Tambah Unit
+                </button>
+                <Table
+                  columns={columns}
+                  dataSource={
+                    data?.units?.map((unit) => ({ ...unit, key: unit.id })) ||
+                    []
+                  }
+                  pagination={true}
+                  scroll={{ y: 240 }}
+                />
+              </Card>
+            </>
           )}
         </div>
+      </Modal>
 
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={onClose}
-            className="bg-gray-500 text-white py-2 px-4 rounded"
-          >
-            Tutup
-          </button>
-        </div>
-      </div>
-    </div>
+      {/* Modal Konfirmasi Tambah Unit */}
+      <ConfirmAddUnitModal
+        open={confirmModalOpen}
+        onClose={() => setConfirmModalOpen(false)}
+        onConfirm={handleAddUnit}
+      />
+
+      {/* Modal Konfirmasi Hapus Unit */}
+      <ConfirmDeleteUnitModal
+        open={confirmDeleteModalOpen}
+        onClose={() => setConfirmDeleteModalOpen(false)}
+        onConfirm={handleDeleteUnit}
+        unit={unitToDelete}
+      />
+    </>
   );
 };
 

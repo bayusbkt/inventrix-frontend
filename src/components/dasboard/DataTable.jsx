@@ -41,9 +41,7 @@ const DataTable = () => {
   return (
     <div className="mt-10">
       <div className="flex justify-between">
-        <h1 className="text-primary font-poppins font-semibold text-xl">
-          Data Alat
-        </h1>
+        <h1 className=" font-poppins font-semibold text-xl">Data Alat</h1>
 
         <input
           type="text"
@@ -62,25 +60,25 @@ const DataTable = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-200">
-                <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-left py-3 px-2 font-poppins text-sm">
                   No.
                 </th>
-                <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-left py-3 px-2 font-poppins text-sm">
                   Nama Alat
                 </th>
-                <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-left py-3 px-2 font-poppins text-sm">
                   Deskripsi
                 </th>
-                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-center py-3 px-2 font-poppins text-sm">
                   Kuantitas
                 </th>
-                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-center py-3 px-2 font-poppins text-sm">
                   Unit Tersedia
                 </th>
-                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-center py-3 px-2 font-poppins text-sm">
                   Unit Dipinjam
                 </th>
-                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                <th className="text-center py-3 px-2 font-poppins text-sm">
                   Aksi
                 </th>
               </tr>
@@ -92,25 +90,21 @@ const DataTable = () => {
                     className="border-b border-slate-200 hover:bg-slate-50 transition-colors duration-200"
                     key={index}
                   >
-                    <td className="py-3 px-2 font-poppins text-primary">
-                      {index + 1}.
-                    </td>
-                    <td className="py-3 px-2 font-poppins text-primary">
-                      {item.itemName}
-                    </td>
-                    <td className="py-3 px-2 font-poppins text-primary">
+                    <td className="py-3 px-2 font-poppins">{index + 1}.</td>
+                    <td className="py-3 px-2 font-poppins">{item.itemName}</td>
+                    <td className="py-3 px-2 font-poppins">
                       {truncateText(item.description, 20)}
                     </td>
-                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                    <td className="text-center py-3 px-2 font-poppins">
                       {item.quantity} Buah
                     </td>
-                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                    <td className="text-center py-3 px-2 font-poppins">
                       {item.inQuantity} Unit
                     </td>
-                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                    <td className="text-center py-3 px-2 font-poppins">
                       {item.outQuantity} Unit
                     </td>
-                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                    <td className="text-center py-3 px-2 font-poppins">
                       <ModalComponent itemId={item.id} />
                     </td>
                   </tr>
@@ -119,7 +113,7 @@ const DataTable = () => {
                 <tr>
                   <td
                     colSpan="7"
-                    className="text-center py-5 font-poppins text-primary text-sm"
+                    className="text-center py-5 font-poppins text-sm"
                   >
                     Tidak ada data yang ditemukan.
                   </td>
