@@ -4,7 +4,7 @@ import DeleteItemModal from "../delete-modal/DeleteItemModal";
 import EditItemModal from "../edit-modal/EditItemModal";
 import DetailItemModal from "../detail-modal/DetailItemModal";
 
-export const TableManajemenBarang = () => {
+export const TableManajemenUnit = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -149,7 +149,7 @@ export const TableManajemenBarang = () => {
             className="bg-primary px-2 py-1 rounded text-white text-sm"
             onClick={() => setShowModal(true)}
           >
-            + Tambah Alat
+            + Tambah Unit
           </button>
         </div>
       </div>

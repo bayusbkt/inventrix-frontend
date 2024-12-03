@@ -52,6 +52,30 @@ export const TableDataPeminjaman = () => {
     data.itemName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleExportExcel = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/export/transaction-history",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Excel file: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "riwayat_barang.xlsx"; // Nama file sesuai dengan yang dikirimkan oleh backend
+      link.click();
+    } catch (error) {
+      console.error("Error downloading Excel file:", error);
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between mt-4">
@@ -65,7 +89,8 @@ export const TableDataPeminjaman = () => {
         <div className="">
           <button
             type="button"
-            className="bg-green-700 px-2 py-1 rounded text-white"
+            onClick={handleExportExcel}
+            className="bg-green-700 px-2 py-1 rounded text-white text-sm"
           >
             Export Excel
           </button>
