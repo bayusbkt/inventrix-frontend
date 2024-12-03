@@ -75,7 +75,7 @@ export const DashboardAdmin = () => {
         />
       </section>
       <section className="recapitulation-data flex gap-4">
-        <div className="line-chart-admin flex-auto h-72">
+        <div className="line-chart-admin flex-auto h-60">
           <h3>Rekapitulasi Peminjaman Bulanan</h3>
           <LineChart />
         </div>
