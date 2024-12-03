@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [timeDate, setTimeDate] = useState({
@@ -14,7 +15,32 @@ const Header = () => {
     }),
   });
 
+  const navigate = useNavigate(); // Gunakan hook useNavigate
   const { user } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/logout", {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(result.message || "Logout berhasil!");
+        navigate("/login"); // Gunakan navigate untuk redirect
+      } else {
+        alert(result.message || "Logout gagal. Silakan coba lagi.");
+      }
+    } catch (error) {
+      console.error("Error saat logout:", error);
+      alert("Terjadi kesalahan saat logout. Silakan coba lagi nanti.");
+    }
+  };
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -46,8 +72,16 @@ const Header = () => {
           alt="Dashboard Vector"
           className="absolute right-20 bottom-0 w-auto h-3/5"
         />
-        <div className="bg-[#EEF5FF] rounded-md px-5 py-2 w-fit shadow-xl">
-          <h1 className="text-primary font-poppins font-semibold">Home</h1>
+        <div className="flex justify-between">
+          <div className="bg-[#EEF5FF] rounded-md px-5 py-2 w-fit shadow-xl ">
+            <h1 className="text-primary font-poppins font-semibold">Home</h1>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-primary text-white p-3 rounded text-center hover:bg-blue-700"
+          >
+            Logout
+          </button>
         </div>
         <div className="flex gap-5 mt-20">
           <div className="bg-white rounded-md px-5 py-2 w-fit shadow-lg border border-slate-200">

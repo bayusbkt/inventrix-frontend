@@ -77,7 +77,7 @@ const LineChart = ({ className }) => {
 
   return (
     <div className={`w-full h-full ${className}`}>
-      <div className="w-full h-80">
+      <div className="w-full h-52">
         <Line data={data} options={options} />
       </div>
     </div>
