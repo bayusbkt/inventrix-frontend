@@ -40,7 +40,8 @@ const router = (props) => [
   {
     path: "/",
     element: (
-      <ProtectedRoute allowedRoles={["Admin"]}>
+      // <ProtectedRoute allowedRoles={["Admin"]}>
+      <ProtectedRoute>
         <Layout />
       </ProtectedRoute>
     ),

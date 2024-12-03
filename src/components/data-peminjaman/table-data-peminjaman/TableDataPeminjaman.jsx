@@ -22,7 +22,6 @@ export const TableDataPeminjaman = () => {
         }
 
         const result = await response.json();
-        console.log("Response Data:", result);
 
         if (result.status === "Success") {
           const mappedData = result.data.map((item) => ({

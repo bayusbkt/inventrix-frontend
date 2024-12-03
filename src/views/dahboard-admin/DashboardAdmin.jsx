@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { ItemStatus } from "../../components/dashboard-admin/item-status/ItemStatus";
 import "./dashboardAdmin.css";
 import { Breadcrumb } from "../../components/dashboard-admin/breadcrumb/Breadcrumb";
-import LineChart from "../../components/chart/LineChart";
+import LineChart from "../../components/global/chart/LineChart";
 
 export const DashboardAdmin = () => {
   return (

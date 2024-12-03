@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import "./dataPeminjaman.css";
 import { Breadcrumb } from "../../components/dashboard-admin/breadcrumb/Breadcrumb";
-import { TableDataPeminjaman } from "../../components/table-data-peminjaman/TableDataPeminjaman";
+import { TableDataPeminjaman } from "../../components/data-peminjaman/table-data-peminjaman/TableDataPeminjaman";
 export const DataPeminjaman = () => {
   return (
     <div className="data-peminjaman">

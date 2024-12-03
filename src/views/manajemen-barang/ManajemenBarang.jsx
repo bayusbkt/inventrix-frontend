@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import "./manajemenBarang.css";
 import { Breadcrumb } from "../../components/dashboard-admin/breadcrumb/Breadcrumb";
-import { TableManajemenBarang } from "../../components/table-manajemen-barang/TableManajemenBarang";
+import { TableManajemenBarang } from "../../components/manajemen-barang/table-manajemen-barang/TableManajemenBarang";
 
 export const ManajemenBarang = () => {
   return (
