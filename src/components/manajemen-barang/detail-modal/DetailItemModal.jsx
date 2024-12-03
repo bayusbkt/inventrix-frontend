@@ -13,6 +13,7 @@ import axios from "axios";
 import { formatDate } from "../../../helpers/formatDate";
 import ConfirmAddUnitModal from "../confirm-add-unit-modal/ConfirmAddUnitModal";
 import ConfirmDeleteUnitModal from "../ConfirmDeleteUnitModal";
+import EditUnitModal from "../EditUnitModal";
 
 const DetailItemModal = ({ itemId }) => {
   const [data, setData] = useState(null);
@@ -21,6 +22,8 @@ const DetailItemModal = ({ itemId }) => {
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
   const [unitToDelete, setUnitToDelete] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [unitToEdit, setUnitToEdit] = useState(null);
 
   const fetchData = async (id) => {
     setLoading(true);
@@ -56,6 +59,23 @@ const DetailItemModal = ({ itemId }) => {
       }
     } catch (error) {
       console.error("Error Adding Unit:", error.message);
+    }
+  };
+
+  const handleEditUnit = async (newStatus) => {
+    try {
+      if (!unitToEdit) return;
+
+      await axios.put(
+        `http://localhost:4000/unit/update/${unitToEdit.id}`,
+        { status: newStatus },
+        { withCredentials: true }
+      );
+
+      setEditModalOpen(false);
+      fetchData(itemId); // Refresh data
+    } catch (error) {
+      console.error("Error Editing Unit:", error.message);
     }
   };
 
@@ -114,6 +134,10 @@ const DetailItemModal = ({ itemId }) => {
             <button
               type="button"
               className="bg-yellow-500 px-2 py-1 rounded text-white"
+              onClick={() => {
+                setUnitToEdit(record);
+                setEditModalOpen(true);
+              }}
             >
               Edit
             </button>
@@ -232,6 +256,13 @@ const DetailItemModal = ({ itemId }) => {
         onClose={() => setConfirmDeleteModalOpen(false)}
         onConfirm={handleDeleteUnit}
         unit={unitToDelete}
+      />
+
+      <EditUnitModal
+        open={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onSave={handleEditUnit}
+        currentStatus={unitToEdit?.status}
       />
     </>
   );
