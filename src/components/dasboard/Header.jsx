@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthProvider";
 
 const Header = () => {
   const [timeDate, setTimeDate] = useState({
@@ -12,6 +13,8 @@ const Header = () => {
       year: "numeric",
     }),
   });
+
+  const { user } = useAuth();
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -41,7 +44,7 @@ const Header = () => {
         <img
           src="/images/dashboard-vector.png"
           alt="Dashboard Vector"
-          className="absolute right-20 bottom-0 h-4/5"
+          className="absolute right-20 bottom-0 w-auto h-3/5"
         />
         <div className="bg-[#EEF5FF] rounded-md px-5 py-2 w-fit shadow-xl">
           <h1 className="text-primary font-poppins font-semibold">Home</h1>
@@ -60,7 +63,7 @@ const Header = () => {
         </div>
         <div className="w-full rounded-2xl bg-primary py-6 px-6 mt-4 shadow-lg">
           <h1 className="font-poppins text-white font-semibold text-2xl mb-2">
-            Hai, Kurnia Jaya!
+            Hai, {user?.name || "Pengguna"}!
           </h1>
           <p className="font-poppins text-white">Siap untuk beraktivitas?</p>
         </div>

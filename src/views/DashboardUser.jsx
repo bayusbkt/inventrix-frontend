@@ -7,7 +7,7 @@ export const DashboardUser = () => {
     <div className="w-full min-h-screen relative">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Dashboard User- Inventrix</title>
+        <title>Dashboard - Inventrix</title>
       </Helmet>
       <img
         src="/images/dashboard-bg.png"

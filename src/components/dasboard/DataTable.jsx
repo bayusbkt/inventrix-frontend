@@ -1,54 +1,41 @@
+import { useEffect, useState } from "react";
 import ModalComponent from "../global/DetailModal";
-
-
-const dummyData = [
-  {
-    number: 1,
-    alat: "Laptop",
-    deskripsi: "Acer Nitro 15",
-    kuantitas: 20,
-    unitTersedia: 10,
-    unitDipinjam: 10,
-  },
-  {
-    number: 2,
-    alat: "Kabel Kusut",
-    deskripsi: "Hati hati kalo pake ada yang rusak",
-    kuantitas: 7,
-    unitTersedia: 5,
-    unitDipinjam: 2,
-  },
-  {
-    number: 3,
-    alat: "Speaker",
-    deskripsi: "Speakernya busuk",
-    kuantitas: 3,
-    unitTersedia: 3,
-    unitDipinjam: 0,
-  },
-  {
-    number: 4,
-    alat: "Proyektor",
-    deskripsi: "Bisa semua",
-    kuantitas: 20,
-    unitTersedia: 12,
-    unitDipinjam: 8,
-  },
-  {
-    number: 5,
-    alat: "Charger",
-    deskripsi: "Cuma buat iphone",
-    kuantitas: 30,
-    unitTersedia: 15,
-    unitDipinjam: 15,
-  },
-];
+import axios from "axios";
 
 const DataTable = () => {
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("http://localhost:4000/item", {
+        withCredentials: true,
+      });
+      setData(response.data.data);
+    } catch {
+      console.log("Error Fetching Data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const filteredData = data?.filter((item) => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      item.itemName.toLowerCase().includes(searchLower) ||
+      item.description.toLowerCase().includes(searchLower)
+    );
+  });
 
   const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + '...';
+    return text.slice(0, maxLength) + "...";
   };
 
   return (
@@ -57,73 +44,90 @@ const DataTable = () => {
         <h1 className="text-primary font-poppins font-semibold text-xl">
           Data Alat
         </h1>
-        <div className="flex gap-4">
-          <select className="rounded-lg border border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 outline-none px-2 py-1 text-sm text-primary">
-            <option value="filter">Filter</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Search"
-            className="rounded-lg border border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 outline-none px-2 py-1 text-sm w-64"
-          />
-        </div>
+
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="rounded-lg border border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 outline-none px-2 py-2 text-sm w-64"
+        />
       </div>
       <div className="bg-white w-full h-auto rounded-xl shadow-lg p-4 mt-4">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-slate-200">
-              <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
-                No.
-              </th>
-              <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
-                Nama Alat
-              </th>
-              <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
-                Deskripsi
-              </th>
-              <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
-                Kuantitas
-              </th>
-              <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
-                Unit Tersedia
-              </th>
-              <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
-                Unit Dipinjam
-              </th>
-              <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
-                Aksi
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {dummyData.map((data, index) => (
-              <tr 
-                className="border-b border-slate-200 hover:bg-slate-50 transition-colors duration-200" 
-                key={index}
-              >
-                <td className="py-3 px-2 font-poppins text-primary">
-                  {data.number}.
-                </td>
-                <td className="py-3 px-2 font-poppins text-primary">{data.alat}</td>
-                <td className="py-3 px-2 font-poppins text-primary">
-                  {truncateText(data.deskripsi, 20)}
-                </td>
-                <td className="text-center py-3 px-2 font-poppins text-primary">
-                  {data.kuantitas} Buah
-                </td>
-                <td className="text-center py-3 px-2 font-poppins text-primary">
-                  {data.unitTersedia} Unit
-                </td>
-                <td className="text-center py-3 px-2 font-poppins text-primary">
-                  {data.unitDipinjam} Unit
-                </td>
-                <td className="text-center py-3 px-2 font-poppins text-primary">
-                  <ModalComponent />
-                </td>
+        {loading ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="loader border-t-4 border-primary border-solid rounded-full w-10 h-10 animate-spin"></div>
+          </div>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-slate-200">
+                <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                  No.
+                </th>
+                <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                  Nama Alat
+                </th>
+                <th className="text-left py-3 px-2 font-poppins text-sm text-primary">
+                  Deskripsi
+                </th>
+                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                  Kuantitas
+                </th>
+                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                  Unit Tersedia
+                </th>
+                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                  Unit Dipinjam
+                </th>
+                <th className="text-center py-3 px-2 font-poppins text-sm text-primary">
+                  Aksi
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredData && filteredData.length > 0 ? (
+                filteredData.map((item, index) => (
+                  <tr
+                    className="border-b border-slate-200 hover:bg-slate-50 transition-colors duration-200"
+                    key={index}
+                  >
+                    <td className="py-3 px-2 font-poppins text-primary">
+                      {index + 1}.
+                    </td>
+                    <td className="py-3 px-2 font-poppins text-primary">
+                      {item.itemName}
+                    </td>
+                    <td className="py-3 px-2 font-poppins text-primary">
+                      {truncateText(item.description, 20)}
+                    </td>
+                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                      {item.quantity} Buah
+                    </td>
+                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                      {item.inQuantity} Unit
+                    </td>
+                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                      {item.outQuantity} Unit
+                    </td>
+                    <td className="text-center py-3 px-2 font-poppins text-primary">
+                      <ModalComponent itemId={item.id} />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="7"
+                    className="text-center py-5 font-poppins text-primary text-sm"
+                  >
+                    Tidak ada data yang ditemukan.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
