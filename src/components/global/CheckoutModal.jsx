@@ -1,8 +1,9 @@
-import { Button, Modal } from "antd";
+import { Button, Modal, message } from "antd";
 import { useState } from "react";
+import axios from "axios";
 
 // eslint-disable-next-line react/prop-types
-const CheckoutModal = ({ isAvailable, isBorrowed, unitId }) => {
+const CheckoutModal = ({ isAvailable, isBorrowed, waitingConfirmation, underMaintenance, broken, unitId, onCheckoutSuccess }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -10,35 +11,122 @@ const CheckoutModal = ({ isAvailable, isBorrowed, unitId }) => {
     setOpen(true);
   };
 
-  const handleOk = () => {
+  const handleCheckout = async () => {
     setConfirmLoading(true);
-    setTimeout(() => {
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/transaction/checkout/${unitId}`, 
+        {}, 
+        { 
+          withCredentials: true 
+        }
+      );
+
+      message.success(response.data.message || "Transaksi berhasil");
+      
+      if (onCheckoutSuccess) {
+        onCheckoutSuccess();
+      }
+
       setOpen(false);
+
+    } catch (error) {
+      message.error(
+        error.response?.data?.message || 
+        "Terjadi kesalahan saat memproses transaksi"
+      );
+    } finally {
       setConfirmLoading(false);
-    }, 2000);
+    }
   };
+
+  const handleReturn = async() => {
+    setConfirmLoading(true);
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/transaction/return/${unitId}`, 
+        {}, 
+        { 
+          withCredentials: true 
+        }
+      );
+
+      message.success(response.data.message || "Berhasil mengembalikan unit");
+      
+      if (onCheckoutSuccess) {
+        onCheckoutSuccess();
+      }
+
+      setOpen(false);
+
+    } catch (error) {
+      message.error(
+        error.response?.data?.message || 
+        "Terjadi kesalahan saat memproses transaksi"
+      );
+    } finally {
+      setConfirmLoading(false);
+    }
+  }
 
   const handleCancel = () => {
     setOpen(false);
   };
 
+  const getButtonProps = () => {
+    if (waitingConfirmation) {
+      return {
+        type: "default",
+        disabled: true,
+        children: "Menunggu Konfirmasi"
+      };
+    }
+    
+    if (!isAvailable && !isBorrowed) {
+      return {
+        type: "primary",
+        disabled: true,
+        children: "Tidak Tersedia"
+      };
+    }
+
+    if (underMaintenance){
+      return {
+        type: "danger",
+        disabled: true,
+        children: "Dalam Perbaikan"
+      }
+    }
+
+    if(broken){
+      return {
+        type: "danger",
+        disabled: true,
+        children: "Rusak"
+      }
+    }
+    
+    return {
+      type: "primary",
+      disabled: false,
+      children: isAvailable ? "Pinjam" : "Kembalikan"
+    };
+  };
+
   return (
     <>
       <Button
-        type="primary"
+        {...getButtonProps()}
         onClick={showModal}
-        disabled={!isAvailable && !isBorrowed}
         className="font-poppins font-semibold"
-      >
-        {isAvailable ? "Pinjam" : isBorrowed ? "Kembalikan" : "Tidak Tersedia"}
-      </Button>
+      />
       <Modal
-      className="font-poppins"
+        className="font-poppins"
         title={
           isAvailable ? "Konfirmasi Peminjaman" : "Konfirmasi Pengembalian"
         }
         open={open}
-        onOk={handleOk}
+        onOk={isAvailable ? handleCheckout : handleReturn}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         centered

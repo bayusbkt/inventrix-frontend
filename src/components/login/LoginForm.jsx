@@ -7,7 +7,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
-  const { setRole } = useAuth();
+  const { user, setUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,9 +28,9 @@ const LoginForm = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setRole(result.data.role);
+        setUser(result.data)
         // Login berhasil
-        if (result.data.role === "Admin") {
+        if (user.role === "Admin") {
           navigate("/"); // Redirect ke halaman utama
         } else {
           navigate("/dashboard"); // Redirect ke halaman utama
