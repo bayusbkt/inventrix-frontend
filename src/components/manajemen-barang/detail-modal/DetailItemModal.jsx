@@ -55,8 +55,8 @@ const DetailItemModal = ({ itemId }) => {
       );
       if (response.status === 200) {
         fetchData(itemId); // Refresh data setelah berhasil
-        setConfirmModalOpen(false); // Tutup modal konfirmasi
       }
+      setConfirmModalOpen(false); // Tutup modal konfirmasi
     } catch (error) {
       console.error("Error Adding Unit:", error.message);
     }
