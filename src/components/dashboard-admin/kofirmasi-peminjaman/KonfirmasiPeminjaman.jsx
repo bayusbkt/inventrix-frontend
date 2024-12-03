@@ -41,7 +41,7 @@ export const KonfirmasiPeminjaman = () => {
   return (
     <div className="konfirmasi-peminjaman-container">
       <h3>Menunggu Konfirmasi</h3>
-      <ul className="flex flex-col mt-3 gap-3">
+      <ul className="flex flex-col mt-3 gap-3 overflow-auto h-40">
         {data.map((transaction) => (
           <li
             key={transaction.id}
