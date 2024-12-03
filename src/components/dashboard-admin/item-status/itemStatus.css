@@ -1,0 +1,18 @@
+.item-status {
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.item-status-description p {
+  font-size: 12px;
+  opacity: 60%;
+}
+
+.item-status-description h2 {
+  font-size: 50px;
+  font-weight: 500;
+}

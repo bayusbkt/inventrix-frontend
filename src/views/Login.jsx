@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import LoginForm from "../components/login/LoginForm";
 
-const Login = () => {
+export const Login = () => {
   return (
     <div className="w-full min-h-screen relative">
       <Helmet>
@@ -10,7 +10,7 @@ const Login = () => {
       </Helmet>
       <img
         src="/images/background-sekolah.png"
-        alt="Background Image"
+        alt="Background"
         className="object-cover w-full h-full absolute top-0 blur-[2px]"
       />
       <div className="flex flex-col items-center w-full relative z-10 px-4">
@@ -77,5 +77,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

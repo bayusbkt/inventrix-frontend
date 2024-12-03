@@ -1,10 +1,51 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
 const LoginForm = () => {
+  const [nis, setNis] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const { setRole } = useAuth();
 
-  const handleSubmit = () => {
-    navigate("/dashboard-user");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nis,
+          password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setRole(result.data.role);
+        // Login berhasil
+        if (result.data.role === "Admin") {
+          navigate("/"); // Redirect ke halaman utama
+        } else {
+          navigate("/dashboard"); // Redirect ke halaman utama
+        }
+      } else {
+        // Login gagal, tampilkan pesan error
+        setErrorMessage(
+          result.message || "Login gagal. Periksa kembali kredensial Anda."
+        );
+      }
+    } catch (error) {
+      // Jika ada error lain (seperti masalah koneksi)
+      console.error("Error saat login:", error);
+      setErrorMessage("Terjadi kesalahan saat mencoba login. Coba lagi nanti.");
+    }
   };
 
   return (
@@ -12,7 +53,7 @@ const LoginForm = () => {
       <h1 className="text-primary font-semibold text-2xl sm:text-3xl mb-6 sm:mb-10 font-poppins">
         Login
       </h1>
-      <form className="flex flex-col gap-2">
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
         <label
           htmlFor="nis"
           className="text-primary font-semibold font-poppins text-sm"
@@ -22,6 +63,8 @@ const LoginForm = () => {
         <input
           type="text"
           id="nis"
+          value={nis}
+          onChange={(e) => setNis(e.target.value)}
           className="rounded-lg border border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 outline-none px-3 py-2 text-sm"
         />
         <label
@@ -33,13 +76,19 @@ const LoginForm = () => {
         <input
           type="password"
           id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="rounded-lg border border-slate-300 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 outline-none px-3 py-2 text-sm"
         />
+
+        {/* Error Message */}
+        {errorMessage && (
+          <p className="text-red-500 text-sm mt-3">{errorMessage}</p>
+        )}
 
         {/* Submit Button */}
         <div className="flex justify-end mt-4">
           <button
-            onClick={handleSubmit}
             type="submit"
             className="text-white bg-primary rounded-lg py-2 px-6 hover:bg-cyan-500 transition-colors text-sm font-medium"
           >

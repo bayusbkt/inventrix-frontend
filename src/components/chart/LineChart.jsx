@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Register komponen Chart.js agar bisa digunakan
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,9 +20,7 @@ ChartJS.register(
   Legend
 );
 
-// eslint-disable-next-line react/prop-types
 const LineChart = ({ className }) => {
-  // Data untuk chart
   const data = {
     labels: [
       "January",
@@ -41,7 +38,7 @@ const LineChart = ({ className }) => {
     ],
     datasets: [
       {
-        label: "none",
+        label: "Dipinjam",
         data: [28, 48, 40, 19, 86, 27, 50, 24, 73, 8, 12, 69],
         borderColor: "rgba(20, 102, 255, 1)",
         backgroundColor: "rgba(153, 102, 255, 0.2)",
@@ -50,30 +47,29 @@ const LineChart = ({ className }) => {
     ],
   };
 
-  // Opsi untuk konfigurasi chart
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Supaya grafik sesuai ukuran parent
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false, // Sembunyikan legenda (opsional)
+        display: false,
       },
       title: {
         display: false,
       },
     },
     layout: {
-      padding: 10, // Tambahkan padding internal jika diperlukan
+      padding: 10,
     },
     scales: {
       x: {
         grid: {
-          display: false, // Hilangkan grid untuk sumbu X
+          display: false,
         },
       },
       y: {
         grid: {
-          display: false, // Hilangkan grid untuk sumbu Y
+          display: false,
         },
       },
     },
@@ -81,7 +77,6 @@ const LineChart = ({ className }) => {
 
   return (
     <div className={`relative w-full h-full ${className}`}>
-      {/* Wrapper Canvas */}
       <div className="w-full h-full">
         <Line data={data} options={options} />
       </div>

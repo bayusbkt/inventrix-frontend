@@ -2,12 +2,12 @@ import { Helmet } from "react-helmet";
 import Header from "../components/dasboard/Header";
 import CardContent from "../components/dasboard/CardContent";
 
-const DashboardUser = () => {
+export const DashboardUser = () => {
   return (
     <div className="w-full min-h-screen relative">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Dashboard - Inventrix</title>
+        <title>Dashboard User- Inventrix</title>
       </Helmet>
       <img
         src="/images/dashboard-bg.png"
@@ -21,5 +21,3 @@ const DashboardUser = () => {
     </div>
   );
 };
-
-export default DashboardUser;
