@@ -14,7 +14,7 @@ import { formatDate } from "../../helpers/formatDate";
 import CheckoutModal from "./CheckoutModal";
 import axios from "axios";
 
-const DetailModal = ({ itemId }) => {
+const DetailModal = ({ itemId, onClose }) => {
   const [data, setData] = useState(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,6 +39,11 @@ const DetailModal = ({ itemId }) => {
       fetchData(itemId);
     }
   }, [open, itemId]);
+
+  const handleClose = () => {
+    setOpen(false);
+    onClose();
+  };
 
   const getStatusTag = (status) => {
     const statusColors = {
@@ -119,7 +124,7 @@ const DetailModal = ({ itemId }) => {
 
       <Modal
         open={open}
-        onCancel={() => setOpen(false)}
+        onCancel={handleClose}
         width={1100}
         centered
         footer={null}

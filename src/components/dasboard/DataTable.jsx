@@ -105,7 +105,7 @@ const DataTable = () => {
                       {item.outQuantity} Unit
                     </td>
                     <td className="text-center py-3 px-2 font-poppins">
-                      <ModalComponent itemId={item.id} />
+                      <ModalComponent itemId={item.id} onClose={fetchData}/>
                     </td>
                   </tr>
                 ))
