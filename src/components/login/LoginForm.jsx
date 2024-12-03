@@ -28,21 +28,21 @@ const LoginForm = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setUser(result.data)
-        // Login berhasil
-        if (user.role === "Admin") {
-          navigate("/"); // Redirect ke halaman utama
+        // Simpan data user ke localStorage melalui context
+        setUser(result.data);
+        
+        // Redirect berdasarkan peran
+        if (result.data.role === "Admin") {
+          navigate("/"); 
         } else {
-          navigate("/dashboard"); // Redirect ke halaman utama
+          navigate("/dashboard");
         }
       } else {
-        // Login gagal, tampilkan pesan error
         setErrorMessage(
           result.message || "Login gagal. Periksa kembali kredensial Anda."
         );
       }
     } catch (error) {
-      // Jika ada error lain (seperti masalah koneksi)
       console.error("Error saat login:", error);
       setErrorMessage("Terjadi kesalahan saat mencoba login. Coba lagi nanti.");
     }
