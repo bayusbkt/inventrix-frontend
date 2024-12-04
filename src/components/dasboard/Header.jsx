@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 const Header = () => {
   const [timeDate, setTimeDate] = useState({
@@ -31,10 +32,11 @@ const Header = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert(result.message || "Logout berhasil!");
+        message.success("Logout berhasil");
         navigate("/login"); // Gunakan navigate untuk redirect
       } else {
         alert(result.message || "Logout gagal. Silakan coba lagi.");
+        message.error("Logout gagal");
       }
     } catch (error) {
       console.error("Error saat logout:", error);
@@ -78,7 +80,7 @@ const Header = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="bg-primary text-white p-3 rounded text-center hover:bg-blue-700"
+            className="bg-primary text-white px-5 py-2 rounded text-center hover:bg-blue-700"
           >
             Logout
           </button>
